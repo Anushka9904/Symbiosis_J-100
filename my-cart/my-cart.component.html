@@ -1,0 +1,108 @@
+<!-- Main Cart Page Section -->
+<div class="cart-page" *ngIf="!showDetails">
+  <!-- Only displays if 'showDetails' is false -->
+
+  <!-- Cart Header -->
+    <header class="cart-header">
+      <h1>Cart</h1>
+    </header>
+
+
+   <!-- Main Cart Content -->
+    <div class="cart-content">
+
+      <!-- Medicine List Section -->
+      <div class="medicine-list">
+
+         <!-- Iterates through 'cartItems' array and creates a card for each medicine -->
+        <div class="medicine-card" *ngFor="let medicine of cartItems">
+
+            <!-- Medicine Image -->
+          <img [src]="medicine.image" alt="{{ medicine.name }}" class="medicine-image" />
+
+          <!-- Medicine Information -->
+          <div class="medicine-info">
+            <h2>{{ medicine.name }}</h2>
+
+            <!-- Displays supplier and price details of the medicine -->
+            <p><strong>Supplier:</strong> {{ medicine.supplier }}</p>
+
+            <p><strong>Price:</strong> ₹{{ medicine.price }}</p>
+
+            <!-- Button to view detailed information about the medicine -->
+            <button (click)="viewDetails(medicine)" class="details-button">
+              View Details
+            </button>
+          </div>
+
+          <!-- Quantity Actions -->
+          <div class="quantity-actions">
+
+            <!-- Button to decrease quantity -->
+            <button (click)="decreaseQuantity(medicine)">-</button>
+
+             <!-- Input box for adjusting quantity directly -->
+            <input
+              type="number"
+              [(ngModel)]="medicine.quantity"
+              [min]="1"
+            />
+
+            <!-- Button to increase quantity -->
+            <button (click)="increaseQuantity(medicine)">+</button>
+
+             <!-- Button to remove the item from the cart -->
+            <button class="remove-button" (click)="removeFromCart(medicine)">
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Cart Summary Section -->
+      <div class="cart-summary">
+
+        <!-- Order Summary -->
+        <h2>Order Summary</h2>
+
+        <!-- Displays total number of items in the cart -->
+        <p><strong>Total Items:</strong> {{ getTotalItems() }}</p>
+        <!-- Displays the total price of all items in the cart -->
+        <p><strong>Total Price:</strong> ₹{{ getTotalPrice() }}</p>
+        <!-- Button to place the order -->
+        <button class="place-order-button" (click)="placeOrder()">Place Order</button>
+        <p>An email will be sent to the supplier with the order details upon placing the order. Additional order details and delivery notifications will be provided by the supplier via email</p>
+        
+      </div>
+    </div>
+  </div>
+  
+  <!-- Product Details Slide -->
+  <div class="details-slide" *ngIf="showDetails">
+    <!-- Only displays if 'showDetails' is true -->
+
+
+    <!-- Back Button to return to the cart page -->
+    <button class="back-button" (click)="closeDetails()">← Back</button>
+
+    <!-- Details Content -->
+    <div class="details-content">
+
+      <!-- Displays the image of the selected medicine -->
+      <img [src]="selectedMedicine.image" alt="{{ selectedMedicine.name }}" class="details-image" />
+      <div class="details-info">
+
+         <!-- Displays the detailed name, supplier, price, and description of the selected medicine -->
+        <h1>{{ selectedMedicine.name }}</h1>
+
+        <p><strong>Supplier:</strong> {{ selectedMedicine.supplier }}</p>
+        <p><strong>Price:</strong> ₹{{ selectedMedicine.price }}</p>
+        <p><strong>Description:</strong> {{ selectedMedicine.description }}</p>
+
+         <!-- Button to add the selected medicine to the cart -->
+        <button class="add-to-cart-button" (click)="addToCart(selectedMedicine)">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
